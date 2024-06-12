@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
@@ -12,9 +13,9 @@ Route::get('/', function () {
 Route::get('/', [App\Http\Controllers\Open\CarController::class, 'index'])->name('open.cars.index');
 
 
-
+Route::post('open/cars/{car}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 Route::get('open/cars/{car}', [App\Http\Controllers\Open\CarController::class, 'show'])->name('open.cars.show');
-
+Route::delete('reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 
 Route::post('/logout', function () {
     Auth::logout();

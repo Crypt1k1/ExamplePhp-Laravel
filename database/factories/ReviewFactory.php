@@ -19,9 +19,9 @@ class ReviewFactory extends Factory
     public function definition(): array
     {
         return [
-            'review_text' => $this->faker->paragraph,
-            'user_id' => User::factory(), // Assumes a user factory is defined
-            'car_id' => Car::factory(),
+            'text' => $this->faker->text(155),
+            'user_id' => User::all()->random()->id, // Assumes a user factory is defined
+            'car_id' => Car::all()->random()->id,
         ];
     }
 }

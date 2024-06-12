@@ -13,7 +13,13 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
     use HasRoles;
 
-    /**
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+
+    }
+    /**$
+     *
      * The attributes that are mass assignable.
      *
      * @var array<int, string>

@@ -11,7 +11,7 @@ class ReviewStoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class ReviewStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+               'text' => 'required|string|max:255',
+               'car_id' => 'required|exists:cars,id',
+
         ];
     }
 }
