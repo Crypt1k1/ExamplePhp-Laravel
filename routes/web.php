@@ -1,11 +1,26 @@
 <?php
 
+use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
 
 Route::get('/', function () {
     return view('home');
 });
+Route::get('/', [App\Http\Controllers\Open\CarController::class, 'index'])->name('open.cars.index');
+
+
+
+Route::get('open/cars/{car}', [App\Http\Controllers\Open\CarController::class, 'show'])->name('open.cars.show');
+
+
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/');
+})->name('logout');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
