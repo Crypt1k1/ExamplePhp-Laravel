@@ -97,8 +97,13 @@ class CarController extends Controller implements HasMiddleware
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Car $car)
+    public function delete(Car $car): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
-        //
+        return view('admin.cars.delete',  ['car' => $car]);
+    }
+    public function destroy(Car $car): RedirectResponse
+    {
+        $car->delete();
+        return to_route('cars.index')->with('status', 'Car Deleted');
     }
 }
