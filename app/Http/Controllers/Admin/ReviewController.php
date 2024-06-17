@@ -40,7 +40,7 @@ class ReviewController extends Controller
         $review->save();
 
         // Redirect back with success message or do whatever you prefer
-        return redirect()->back()->with('success', 'Review posted successfully!');
+        return redirect()->route('open.cars.show', $review->car_id)->with('status', 'Review posted successfully');
     }
 
     public function show(Review $reviews)

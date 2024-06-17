@@ -472,10 +472,8 @@
             <!-- end link -->
 
             <!-- link -->
-            <a href="#" class="mb-3 capitalize font-medium text-sm hover:text-teal-600 transition ease-in-out duration-500">
-                <i class="fad fa-computer-classic text-xs mr-2"></i>
-                Components
-            </a>
+            <a href="{{ route('register') }}" class="mb-3 capitalize font-medium text-sm hover:text-teal-600
+                    transition ease-in-out duration-500">{{ __('Register') }}</a>
             <!-- end link -->
 
 

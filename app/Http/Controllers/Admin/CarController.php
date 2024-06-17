@@ -56,7 +56,11 @@ class CarController extends Controller implements HasMiddleware
         $car->description = $request->description;
         $car->brand = $request->brand;
         $car->year = $request->year;
-        $car->image = $request->image;
+        if ($request->hasFile('image')) {
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images/'), $imageName);
+            $car->image = $imageName;
+        }
         $car->avarageprice = $request->avarageprice;
         $car->save();
 

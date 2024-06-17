@@ -1,4 +1,4 @@
-@extends('layouts\app')
+@extends('layouts\layoutadmins')
 
 @section('content')
     <h1>Projecten</h1>

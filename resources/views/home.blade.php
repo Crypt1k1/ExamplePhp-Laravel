@@ -1,8 +1,10 @@
 @extends('layouts\layoutadmins')
 
 @section('content')
-    <h1 class="text-center text-xl md:text-4xl px-6 py-12 bg-white">Kies een Project</h1> <!– /title →→
-    ←!— grid →→→
+    <h1 class="text-center text-xl md:text-4xl px-6 py-12 bg-white">Kies een Project</h1>
+    @if(Route::has('register'))
+
+    @endif
     <div class="w-full px-6 py-12 bg-gray-100 border-t">
         <div class="container max-w-4xl mx-auto pb-10 flex flex-wrap">
 

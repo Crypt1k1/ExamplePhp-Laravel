@@ -24,9 +24,13 @@
                         <h2 class="text-xl font-semibold text-gray-700">Year:</h2>
                         <p class="text-lg text-gray-800">{{ $car->year }}</p>
                     </div>
+                    <div class="w-full px-4 mb-4">
+                        <h2 class="text-xl font-semibold text-gray-700">Car Image:</h2>
+                        <img src="images/images.jpg" alt="Image of {{ $car->name }}" class="w-full h-auto rounded-lg">
+                    </div>
                     <div class="w-full md:w-1/2 px-4 mb-4">
                         <h2 class="text-xl font-semibold text-gray-700">Average Price:</h2>
-                        <p class="text-lg text-gray-800">{{ $car->average_price }}</p>
+                        <p class="text-lg text-gray-800">{{ $car->avarageprice }}</p>
                     </div>
                     <div class="w-full px-4 mb-4">
                         <h2 class="text-xl font-semibold text-gray-700">Description:</h2>
@@ -36,7 +40,7 @@
             </div>
         </div>
     </div>
-    @can('create review')
+
         <div class="mt-8">
             <h2 class="text-2xl font-semibold text-gray-800">Reviews</h2>
             <!-- Display Reviews -->
@@ -49,7 +53,7 @@
                             <p class="text-sm text-gray-600 mt-2">Posted by {{ $review->user->name }}</p>
 
                             <!-- Check if the user is authorized to delete the review -->
-                            @if (auth()->user()->hasRole(['admin', 'moderator']) || $review->user_id === auth()->id())
+                            @if (auth()->check() && (auth()->user()->hasRole(['admin', 'moderator']) || $review->user_id === auth()->id()))
                                 <form action="{{ route('reviews.destroy', ['review' => $review->id]) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
@@ -63,21 +67,18 @@
                 @endif
             </div>
 
-            <!-- Form to Add Review -->
-            @if (auth()->check())
-                <div class="mt-4">
-                    <form action="{{ route('reviews.store', ['car' => $car->id]) }}" method="POST">
-                        @csrf
-                        <textarea name="text" class="w-full border rounded-md p-2" placeholder="Write your review here..." required></textarea>
-                        <button type="submit" class="bg-blue-500 text-white rounded-md px-4 py-2 mt-2">Post Review</button>
-                    </form>
-                </div>
-            @else
-                <p class="mt-4">Please <a href="{{ route('login') }}" class="text-blue-500">login</a> to post a review.</p>
-            @endif
-            <!-- End Form to Add Review -->
-        </div>
-        <!-- End Review Section -->
-        </div>
-        @endcan
+            @can('create review')
+                @if (auth()->check())
+                    <div class="mt-4">
+                        <form action="{{ route('reviews.store', ['car' => $car->id]) }}" method="POST">
+                            @csrf
+                            <textarea name="text" class="w-full border rounded-md p-2" placeholder="Write your review here..." required></textarea>
+                            <input type="hidden" name="car_id" value="{{ $car->id }}">
+                            <button type="submit" class="bg-blue-500 text-white rounded-md px-4 py-2 mt-2">Post Review</button>
+                        </form>
+                    </div>
+                @else
+                    <p class="mt-4">Please <a href="{{ route('login') }}" class="text-blue-500">login</a> to post a review.</p>
+    @endif
+    @endcan
         @endsection

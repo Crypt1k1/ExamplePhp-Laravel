@@ -34,6 +34,13 @@ Route::group(['middleware' =>['role:moderator|admin']], function ()
     Route::resource('/admin/cars', \App\Http\Controllers\Admin\CarController::class);
 });
 
+Route::group(['middleware' =>['role:moderator|admin']], function ()
+{
+    Route::get('/admin/users/{user}/delete', [App\Http\Controllers\Admin\UserController::class, 'delete'])
+        ->name('users.delete');
+    Route::resource('/admin/users', \App\Http\Controllers\Admin\UserController::class);
+});
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
