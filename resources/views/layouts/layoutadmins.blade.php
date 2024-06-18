@@ -354,9 +354,9 @@
             <p class="uppercase text-xs text-gray-600 mb-4 tracking-wider">homes</p>
 
             <!-- link -->
-            <a href="./index.html" class="mb-3 capitalize font-medium text-sm hover:text-teal-600 transition ease-in-out duration-500">
-                <i class="fad fa-chart-pie text-xs mr-2"></i>
-                Analytics dashboard
+            <a href="{{ route('open.cars.index') }}" class="mb-3 capitalize font-medium text-sm hover:text-teal-600 transition ease-in-out duration-500">
+                <i class="fad fa-club text-xs mr-2"></i>
+                HomePage
             </a>
             <!-- end link -->
 
@@ -456,24 +456,36 @@
                 icons
             </a>
             <!-- end link -->
-
+            @can('index car')
             <!-- link -->
-            <a href="#" class="mb-3 capitalize font-medium text-sm hover:text-teal-600 transition ease-in-out duration-500">
+            <a href="{{ route('cars.index') }}" class="mb-3 capitalize font-medium text-sm hover:text-teal-600 transition ease-in-out duration-500">
                 <i class="fad fa-club text-xs mr-2"></i>
-                card
+                Admin
             </a>
             <!-- end link -->
 
             <!-- link -->
-            <a href="#" class="mb-3 capitalize font-medium text-sm hover:text-teal-600 transition ease-in-out duration-500">
+            <a href="{{ route('users.index') }}" class="mb-3 capitalize font-medium text-sm hover:text-teal-600 transition ease-in-out duration-500">
                 <i class="fad fa-cheese-swiss text-xs mr-2"></i>
-                Widgets
+                Users
             </a>
+            @endcan
             <!-- end link -->
 
             <!-- link -->
             <a href="{{ route('register') }}" class="mb-3 capitalize font-medium text-sm hover:text-teal-600
                     transition ease-in-out duration-500">{{ __('Register') }}</a>
+            <a href="{{ route('login') }}" class="mb-3 capitalize font-medium text-sm hover:text-teal-600
+                    transition ease-in-out duration-500">{{ __('login') }}</a>
+            <form action="{{ route('logout') }}" method="POST" class="mb-3">
+                @csrf
+                <button type="submit" class="capitalize font-medium text-sm bg-transparent border-none hover:text-teal-600 transition ease-in-out duration-500">
+                    {{ __('Logout') }}
+                </button>
+            </form>
+                <a href="{{ route('user.showFavourites') }}" class="mb-3 capitalize font-medium text-sm hover:text-teal-600
+                        transition ease-in-out duration-500">{{ __('fav') }}</a>
+
             <!-- end link -->
 
 

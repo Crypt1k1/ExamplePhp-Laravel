@@ -14,6 +14,6 @@ class LogoutController extends Controller
     $request->session()->invalidate();
     $request->session()->regenerateToken();
 
-    return redirect('/logout'); // or wherever you want to redirect after logout
+    return redirect('home'); // or wherever you want to redirect after logout
 }
 }

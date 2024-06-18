@@ -12,8 +12,12 @@ class Car extends Model
     {
  return $this->hasMany(Review::class);
     }
-    public function user()
+    public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class, 'user_cars', 'car_id', 'user_id');
+    }
+    public function favoritedBy()
+    {
+        return $this->hasMany(User::class, 'favorite_car_id');
     }
 }

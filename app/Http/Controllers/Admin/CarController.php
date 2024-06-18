@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Middleware\PermissionMiddleware;
 
 
@@ -110,4 +111,6 @@ class CarController extends Controller implements HasMiddleware
         $car->delete();
         return to_route('cars.index')->with('status', 'Car Deleted');
     }
+
+
 }

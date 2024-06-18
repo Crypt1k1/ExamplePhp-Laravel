@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\CarController;
 use App\Http\Controllers\Admin\ReviewController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +18,13 @@ Route::get('/', [App\Http\Controllers\Open\CarController::class, 'index'])->name
 Route::post('open/cars/{car}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 Route::get('open/cars/{car}', [App\Http\Controllers\Open\CarController::class, 'show'])->name('open.cars.show');
 Route::delete('reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
+Route::post('open/cars/{car}/favorite', [CarController::class, 'toggleFavorite'])->name('cars.favorite.toggle');
+Route::group(['middleware' =>['role:moderator|admin|reader']], function () {
+    Route::post('user/favourite/{car}', [UserController::class, 'favourite'])->name('user.favourite');
+    Route::get('/user/favourites', [UserController::class, 'showFavourites'])->name('user.showFavourites');
+    Route::delete('user/favourite/{car}', [UserController::class, 'deleteFavourite'])->name('user.deleteFavourite');
 
+});
 Route::post('/logout', function () {
     Auth::logout();
     return redirect('/');
@@ -24,7 +32,7 @@ Route::post('/logout', function () {
 
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('home');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::group(['middleware' =>['role:moderator|admin']], function ()
@@ -36,9 +44,9 @@ Route::group(['middleware' =>['role:moderator|admin']], function ()
 
 Route::group(['middleware' =>['role:moderator|admin']], function ()
 {
-    Route::get('/admin/users/{user}/delete', [App\Http\Controllers\Admin\UserController::class, 'delete'])
-        ->name('users.delete');
-    Route::resource('/admin/users', \App\Http\Controllers\Admin\UserController::class);
+    Route::get('/admin/user/{user}/delete', [UserController::class, 'delete'])
+        ->name('user.delete');
+    Route::resource('/admin/users', UserController::class);
 });
 
 Route::middleware('auth')->group(function () {

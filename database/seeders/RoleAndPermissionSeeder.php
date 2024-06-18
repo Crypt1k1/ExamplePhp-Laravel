@@ -29,10 +29,16 @@ class RoleAndPermissionSeeder extends Seeder
         Permission::create(['name' => 'edit review']);
         Permission::create(['name' => 'delete review']);
 
+        //User permissions
+        Permission::create(['name' => 'index user']);
+        Permission::create(['name' => 'show user']);
+        Permission::create(['name' => 'create user']);
+        Permission::create(['name' => 'edit user']);
+        Permission::create(['name' => 'delete user']);
 
         $reader = Role::create(['name' => 'reader'])->givePermissionTo('create review', 'delete review');
         $moderator =  Role::create(['name' => 'moderator'])->givePermissionTo('create review',
-            'delete review','index review', 'edit review' );
+            'delete review','index review', 'edit review', 'index user', 'show user' );
         $admin  =  Role::create(['name' => 'admin'])->givePermissionTo(Permission::all());
     }
 
