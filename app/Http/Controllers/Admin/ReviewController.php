@@ -23,9 +23,33 @@ class ReviewController extends Controller
                 new Middleware(PermissionMiddleware::using('show review'), only:['show']),
                 new Middleware(PermissionMiddleware::using('create review'), only:['create', 'store']),
                 new Middleware(PermissionMiddleware::using('edit review'), only:['edit', 'update']),
-                new Middleware(PermissionMiddleware::using('delete review'), only:['delete', 'destroy'])
+                new Middleware(PermissionMiddleware::using('delete review'), only:['delete', 'destroy']),
+                new Middleware(PermissionMiddleware::using('storeAdmin review'), only:['storeAdmin'])
 
             ];
+    }
+    public function index()
+    {
+       $reviews = Review::all();
+        return view('admin.reviews.index' , compact('reviews'));
+    }
+
+    public function edit(Review $review)
+    {
+
+        $users = User::all();
+        $cars = Car::all();
+        return view('admin.reviews.edit',  ['cars' => $cars, 'users' =>$users,'review'=> $review]);
+    }
+    public function update(ReviewStoreRequest $request, Review $review)
+    {
+
+        $review->text = $request->text;
+        $review->car_id = $request->car_id;
+        $review->user_id = $request->user_id;
+
+        $review->save();
+        return to_route('reviews.index')->with('status', "Task $review->$review Created Suck");
     }
 
 
@@ -43,11 +67,11 @@ class ReviewController extends Controller
         return redirect()->route('open.cars.show', $review->car_id)->with('status', 'Review posted successfully');
     }
 
-    public function show(Review $reviews)
+    public function show(Review $review)
     {
-        $user = User::find($reviews->user_id);
-        $car = Car::find($reviews->car_id);
-        return view('admin.review.show', compact('user', 'car', 'reviews'));
+        $user = User::find($review->user_id);
+        $car = Car::find($review->car_id);
+        return view('admin.reviews.show', compact('user', 'car', 'review'));
     }
 
     public function destroy(Review $review)
@@ -64,4 +88,24 @@ class ReviewController extends Controller
         // If the user doesn't have the necessary role, redirect back with an error message
         return redirect()->back()->with('error', 'You are not authorized to delete this review.');
     }
+    public function delete(Review $review)
+    {
+        $review->delete();
+        return redirect()->route('reviews.index')->with('status', 'User deleted successfully');
+    }
+
+    public function storeAdmin(ReviewStoreRequest $request):RedirectResponse
+    {
+        $review = new Review();
+        $review->text = $request->text;
+        $review->user_id = $request->user_id; // Assuming the user is authenticated
+        $review->car_id = $request->car_id;
+
+        // Save the review
+        $review->save();
+
+        // Redirect back with success message or do whatever you prefer
+        return redirect()->route('admin.reviews.index',)->with('status', 'Review posted successfully');
+    }
+
 }

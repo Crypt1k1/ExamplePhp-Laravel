@@ -473,10 +473,8 @@
             <!-- end link -->
 
             <!-- link -->
-            <a href="{{ route('register') }}" class="mb-3 capitalize font-medium text-sm hover:text-teal-600
-                    transition ease-in-out duration-500">{{ __('Register') }}</a>
-            <a href="{{ route('login') }}" class="mb-3 capitalize font-medium text-sm hover:text-teal-600
-                    transition ease-in-out duration-500">{{ __('login') }}</a>
+
+            @if(auth()->check())
             <form action="{{ route('logout') }}" method="POST" class="mb-3">
                 @csrf
                 <button type="submit" class="capitalize font-medium text-sm bg-transparent border-none hover:text-teal-600 transition ease-in-out duration-500">
@@ -485,7 +483,13 @@
             </form>
                 <a href="{{ route('user.showFavourites') }}" class="mb-3 capitalize font-medium text-sm hover:text-teal-600
                         transition ease-in-out duration-500">{{ __('fav') }}</a>
+            @else
+                <a href="{{ route('register') }}" class="mb-3 capitalize font-medium text-sm hover:text-teal-600
+                    transition ease-in-out duration-500">{{ __('Register') }}</a>
+                <a href="{{ route('login') }}" class="mb-3 capitalize font-medium text-sm hover:text-teal-600
+                    transition ease-in-out duration-500">{{ __('login') }}</a>
 
+            @endif
             <!-- end link -->
 
 
